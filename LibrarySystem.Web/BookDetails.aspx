@@ -47,5 +47,5 @@
         </EmptyDataTemplate>
     </asp:DetailsView>
     <br />
-    <a href="Default.aspx">Back</a>
+    <a href="javascript:history.go(-1)">Back</a>
 </asp:Content>

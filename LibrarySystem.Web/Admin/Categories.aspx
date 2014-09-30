@@ -9,6 +9,7 @@
                 ConnectionString="name=LibraryDbEntities"
                 DefaultContainerName="LibraryDbEntities"
                 EnableFlattening="False"
+                EnableDelete="true"
                 EntitySetName="Categories">
             </asp:EntityDataSource>
             <asp:GridView ID="gvEditcategories" runat="server"
@@ -27,7 +28,7 @@
                     <asp:TemplateField ItemStyle-Width="30%" HeaderText="Action" ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Justify">
                         <ItemTemplate>
                             <asp:Button ID="btnEditcategory" Text="Edit" runat="server" CssClass="btn btn-info" CausesValidation="false" CommandName="Edit" CommandArgument='<%# Item.Id + ";" + Item.Name %>' />
-                            <asp:Button ID="btnDeleteCategory" Text="Delete" runat="server" CssClass="btn btn-danger" CommandName="Delete" CommandArgument='<%# Item.Id + ";" + Item.Name %>' />
+                            <asp:Button ID="btnDeleteCategory" Text="Delete" runat="server" CssClass="btn btn-danger" CommandName="Del" CommandArgument='<%# Item.Id + ";" + Item.Name %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
@@ -53,7 +54,7 @@
                         </div>
                     </div>
                     <asp:Button Text="Save" ID="btnSaveCategory" runat="server" CssClass="btn btn-success" OnClick="btnSaveCategory_Click" />
-                    <asp:Button Text="Cancel" ID="btnCancel" runat="server" CssClass="btn btn-defult" CausesValidation="false" OnClick="btnCancel_Click" />
+                    <asp:Button Text="Cancel" ID="btnCancel" runat="server" CssClass="btn" CausesValidation="false" OnClick="btnCancel_Click" />
                 </asp:View>
                 <asp:View runat="server" ID="viewEditCategory">
                     <asp:HiddenField ID="hfCategoryId" runat="server" />
@@ -73,9 +74,18 @@
                         </div>
                     </div>
                     <asp:Button Text="Update" ID="btnUpdate" runat="server" CssClass="btn btn-success" OnClick="btnUpdate_Click" />
-                    <asp:Button Text="Cancel" ID="btnCancelUpdate" runat="server" CssClass="btn btn-defult" CausesValidation="false" OnClick="btnCancel_Click" />
+                    <asp:Button Text="Cancel" ID="btnCancelUpdate" runat="server" CssClass="btn" CausesValidation="false" OnClick="btnCancel_Click" />
+                </asp:View>
+                <asp:View ID="viewDeleteCategory" runat="server">
+                    <asp:HiddenField ID="hfCategoryIdDel" runat="server" />
+                    <p class="alert alert-info h4">
+                        Are you sure to delete category <asp:Label ID="lblCategoryNameDel" Text="" runat="server" /> with all its books ?
+                    </p>
+                    <asp:Button Text="Delete" ID="btnDelete" runat="server" CssClass="btn btn-danger" OnClick="btnDelete_Click" />
+                    <asp:Button Text="Cancel" ID="btnCancelDelete" runat="server" CssClass="btn" CausesValidation="false" OnClick="btnCancel_Click" />
                 </asp:View>
             </asp:MultiView>
         </div>
     </div>
+    <script src="../Scripts/Script.js"></script>
 </asp:Content>

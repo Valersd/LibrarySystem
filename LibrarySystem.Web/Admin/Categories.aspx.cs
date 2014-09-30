@@ -12,7 +12,12 @@ namespace LibrarySystem.Web.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            this.mvEditCreateCategories.Visible = false;
+        }
 
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            this.gvEditcategories.DataBind();
         }
 
         protected void btnSaveCategory_Click(object sender, EventArgs e)
@@ -23,18 +28,19 @@ namespace LibrarySystem.Web.Admin
             cat.Name = name;
             db.Categories.Add(cat);
             db.SaveChanges();
+            this.txtCategoryName.Text = "";
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             this.txtCategoryName.Text = "";
-            this.mvEditCreateCategories.Visible = false;
         }
 
         protected void btnCreateCategory_Click(object sender, EventArgs e)
         {
             this.mvEditCreateCategories.ActiveViewIndex = 0;
             this.mvEditCreateCategories.Visible = true;
+            this.txtCategoryName.Focus();
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)
@@ -47,20 +53,42 @@ namespace LibrarySystem.Web.Admin
             LibraryDbEntities db = new LibraryDbEntities();
             db.Entry<Category>(cat).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
-            this.gvEditcategories.DataBind();
         }
 
         protected void gvEditcategories_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName=="Edit")
+            switch (e.CommandName)
             {
-                string[] parameters = e.CommandArgument.ToString().Split(';');
-                this.hfCategoryId.Value = parameters[0];
-                this.txtEditCategoryName.Text = parameters[1];
-                this.txtEditCategoryName.Focus();
-                this.mvEditCreateCategories.ActiveViewIndex = 1;
-                this.mvEditCreateCategories.Visible = true;
+                case "Edit":
+                    string[] parameters = e.CommandArgument.ToString().Split(';');
+                    this.hfCategoryId.Value = parameters[0];
+                    this.txtEditCategoryName.Text = parameters[1];
+                    this.txtEditCategoryName.Focus();
+                    this.mvEditCreateCategories.ActiveViewIndex = 1;
+                    this.mvEditCreateCategories.Visible = true;
+                    break;
+                case "Del":
+                    parameters = e.CommandArgument.ToString().Split(';');
+                    this.hfCategoryIdDel.Value = parameters[0];
+                    this.lblCategoryNameDel.Text = parameters[1];
+                    this.mvEditCreateCategories.ActiveViewIndex = 2;
+                    this.mvEditCreateCategories.Visible = true;
+                    break;
+                default:
+                    break;
             }
         }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            Category cat = new Category()
+            {
+                Id = Convert.ToInt32(this.hfCategoryIdDel.Value),
+            };
+            LibraryDbEntities db = new LibraryDbEntities();
+            db.Entry<Category>(cat).State = System.Data.Entity.EntityState.Deleted;
+            db.SaveChanges();
+        }
+
     }
 }

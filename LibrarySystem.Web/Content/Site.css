@@ -27,10 +27,23 @@ input[type="password"] {
     }
 }
 
-#MainContent_gvEditcategories td{
+#MainContent_gvEditcategories td, #MainContent_gvEditBooks td{
     vertical-align:middle;
 }
 
-#MainContent_gvEditcategories th:last-of-type{
+#MainContent_gvEditcategories th:last-of-type, #MainContent_gvEditBooks th:last-of-type{
     text-align:center;
+}
+
+div, span {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
+body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+    margin-right: 0;
+}
+
+.modal {
+    overflow-y: auto;
 }
